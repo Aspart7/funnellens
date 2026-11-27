@@ -1,0 +1,339 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FunnelLens first-screen audit v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "score",
+    "issues",
+    "heroRewrite"
+  ],
+  "properties": {
+    "score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Computed by the server as 100 minus the sum of the penalties of the distinct issues."
+    },
+    "issues": {
+      "type": "array",
+      "maxItems": 12,
+      "uniqueItems": true,
+      "allOf": [
+        {"contains":{"properties":{"id":{"const":"value.outcome"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"value.object"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"action.entry"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"action.label"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"hierarchy.rivals"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"hierarchy.detour"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"proof.evidence"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"proof.claim"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"friction.fields"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"friction.terms"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"legibility.clipping"}}},"minContains":0,"maxContains":1},
+        {"contains":{"properties":{"id":{"const":"legibility.contrast"}}},"minContains":0,"maxContains":1}
+      ],
+      "items": {
+        "$ref": "#/$defs/issue"
+      }
+    },
+    "heroRewrite": {
+      "$ref": "#/$defs/heroRewrite"
+    }
+  },
+  "$defs": {
+    "text": {
+      "type": "string",
+      "pattern": "\\S",
+      "minLength": 1,
+      "maxLength": 700
+    },
+    "nullableText": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/text"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "category",
+        "severity",
+        "elementId",
+        "title",
+        "problem",
+        "impact",
+        "concreteFix"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "value.outcome",
+            "value.object",
+            "action.entry",
+            "action.label",
+            "hierarchy.rivals",
+            "hierarchy.detour",
+            "proof.evidence",
+            "proof.claim",
+            "friction.fields",
+            "friction.terms",
+            "legibility.clipping",
+            "legibility.contrast"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "value",
+            "action",
+            "hierarchy",
+            "proof",
+            "friction",
+            "legibility"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "critical",
+            "warning",
+            "tip"
+          ]
+        },
+        "elementId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "ID of a visible pin anchor in the DOM capture, including the registered viewport fallback."
+        },
+        "title": {
+          "type": "string",
+          "pattern": "\\S",
+          "maxLength": 100
+        },
+        "problem": {
+          "$ref": "#/$defs/text"
+        },
+        "impact": {
+          "$ref": "#/$defs/text"
+        },
+        "concreteFix": {
+          "$ref": "#/$defs/text"
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "id": {
+              "const": "value.outcome"
+            },
+            "category": {
+              "const": "value"
+            },
+            "severity": {
+              "const": "critical"
+            }
+          },
+          "description": "Penalty: 14 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "value.object"
+            },
+            "category": {
+              "const": "value"
+            },
+            "severity": {
+              "const": "warning"
+            }
+          },
+          "description": "Penalty: 10 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "action.entry"
+            },
+            "category": {
+              "const": "action"
+            },
+            "severity": {
+              "const": "critical"
+            }
+          },
+          "description": "Penalty: 14 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "action.label"
+            },
+            "category": {
+              "const": "action"
+            },
+            "severity": {
+              "const": "warning"
+            }
+          },
+          "description": "Penalty: 8 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "hierarchy.rivals"
+            },
+            "category": {
+              "const": "hierarchy"
+            },
+            "severity": {
+              "const": "warning"
+            }
+          },
+          "description": "Penalty: 10 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "hierarchy.detour"
+            },
+            "category": {
+              "const": "hierarchy"
+            },
+            "severity": {
+              "const": "warning"
+            }
+          },
+          "description": "Penalty: 6 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "proof.evidence"
+            },
+            "category": {
+              "const": "proof"
+            },
+            "severity": {
+              "const": "warning"
+            }
+          },
+          "description": "Penalty: 8 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "proof.claim"
+            },
+            "category": {
+              "const": "proof"
+            },
+            "severity": {
+              "const": "warning"
+            }
+          },
+          "description": "Penalty: 6 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "friction.fields"
+            },
+            "category": {
+              "const": "friction"
+            },
+            "severity": {
+              "const": "warning"
+            }
+          },
+          "description": "Penalty: 8 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "friction.terms"
+            },
+            "category": {
+              "const": "friction"
+            },
+            "severity": {
+              "const": "warning"
+            }
+          },
+          "description": "Penalty: 6 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "legibility.clipping"
+            },
+            "category": {
+              "const": "legibility"
+            },
+            "severity": {
+              "const": "warning"
+            }
+          },
+          "description": "Penalty: 6 points."
+        },
+        {
+          "properties": {
+            "id": {
+              "const": "legibility.contrast"
+            },
+            "category": {
+              "const": "legibility"
+            },
+            "severity": {
+              "const": "tip"
+            }
+          },
+          "description": "Penalty: 4 points."
+        }
+      ]
+    },
+    "heroRewrite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "beforeHeadline",
+        "afterHeadline",
+        "beforeSubheadline",
+        "afterSubheadline",
+        "beforeCta",
+        "afterCta",
+        "whyItConvertsBetter"
+      ],
+      "properties": {
+        "beforeHeadline": {
+          "$ref": "#/$defs/nullableText"
+        },
+        "afterHeadline": {
+          "$ref": "#/$defs/nullableText"
+        },
+        "beforeSubheadline": {
+          "$ref": "#/$defs/nullableText"
+        },
+        "afterSubheadline": {
+          "$ref": "#/$defs/nullableText"
+        },
+        "beforeCta": {
+          "$ref": "#/$defs/nullableText"
+        },
+        "afterCta": {
+          "$ref": "#/$defs/nullableText"
+        },
+        "whyItConvertsBetter": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    }
+  }
+}
