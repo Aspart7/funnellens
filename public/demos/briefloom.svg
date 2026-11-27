@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" fill="none">
+  <rect width="1280" height="800" fill="#F8FAFC"/>
+  <!-- Navbar -->
+  <rect width="1280" height="72" fill="#FFFFFF"/>
+  <line x1="0" y1="72" x2="1280" y2="72" stroke="#E2E8F0"/>
+  <circle cx="96" cy="36" r="14" fill="#6366F1"/>
+  <text x="120" y="42" fill="#0F172A" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700">Briefloom</text>
+  <text x="540" y="41" fill="#475569" font-family="Inter, system-ui, sans-serif" font-size="14">Features</text>
+  <text x="640" y="41" fill="#475569" font-family="Inter, system-ui, sans-serif" font-size="14">Integrations</text>
+  <text x="760" y="41" fill="#475569" font-family="Inter, system-ui, sans-serif" font-size="14">Pricing</text>
+  <text x="1140" y="41" fill="#4338CA" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600">Log in</text>
+
+  <!-- bl-h1: x=80, y=152, w=576, h=104 -->
+  <text x="80" y="196" fill="#0F172A" font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="800" letter-spacing="-0.02em">Unlock smarter</text>
+  <text x="80" y="246" fill="#0F172A" font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="800" letter-spacing="-0.02em">meetings forever</text>
+
+  <!-- bl-sub: x=80, y=272, w=563.2, h=64 (intentionally low-contrast #94a3b8 on #F8FAFC!) -->
+  <text x="80" y="300" fill="#94A3B8" font-family="Inter, system-ui, sans-serif" font-size="17">Next-gen AI intelligence for modern hybrid workforces</text>
+  <text x="80" y="324" fill="#94A3B8" font-family="Inter, system-ui, sans-serif" font-size="17">powered by unified neural collaboration workflows.</text>
+
+  <!-- bl-terms-form: x=80, y=376, w=537.6, h=120 -->
+  <rect x="80" y="376" width="538" height="120" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="102" y="402" fill="#334155" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600">Create password *</text>
+  <rect x="102" y="414" width="276" height="44" rx="8" fill="#F8FAFC" stroke="#CBD5E1"/>
+  <text x="118" y="441" fill="#64748B" font-family="Inter, system-ui, sans-serif" font-size="14">••••••••••••</text>
+  <rect x="392" y="414" width="204" height="44" rx="8" fill="#4F46E5"/>
+  <text x="414" y="441" fill="#FFFFFF" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600">Try free — no signup</text>
+
+  <text x="80" y="544" fill="#64748B" font-family="Inter, system-ui, sans-serif" font-size="13">Works with Zoom, Google Meet &amp; Microsoft Teams</text>
+
+  <!-- bl-mockup: x=704, y=140, w=492.8, h=432 (Purely decorative grey skeleton bars) -->
+  <rect x="704" y="140" width="493" height="432" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+  <circle cx="752" cy="186" r="18" fill="#E0E7FF"/>
+  <rect x="784" y="174" width="160" height="12" rx="6" fill="#CBD5E1"/>
+  <rect x="784" y="194" width="96" height="8" rx="4" fill="#E2E8F0"/>
+
+  <!-- Blurred / unreadable abstract bars -->
+  <rect x="734" y="236" width="433" height="86" rx="12" fill="#F1F5F9"/>
+  <rect x="754" y="256" width="220" height="12" rx="6" fill="#CBD5E1"/>
+  <rect x="754" y="280" width="370" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="754" y="298" width="290" height="10" rx="5" fill="#E2E8F0"/>
+
+  <rect x="734" y="340" width="433" height="86" rx="12" fill="#F1F5F9"/>
+  <rect x="754" y="360" width="180" height="12" rx="6" fill="#CBD5E1"/>
+  <rect x="754" y="384" width="340" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="754" y="402" width="260" height="10" rx="5" fill="#E2E8F0"/>
+
+  <rect x="734" y="444" width="433" height="96" rx="12" fill="#EEF2FF"/>
+  <rect x="754" y="468" width="240" height="12" rx="6" fill="#A5B4FC"/>
+  <rect x="754" y="492" width="310" height="10" rx="5" fill="#C7D2FE"/>
+  <rect x="754" y="510" width="200" height="10" rx="5" fill="#C7D2FE"/>
+</svg>
