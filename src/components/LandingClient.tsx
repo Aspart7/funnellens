@@ -7,9 +7,10 @@ import { useCallback, useState, type FormEvent } from "react";
 import {
   AlertCircle,
   ArrowRight,
-  CheckCircle2,
   Crosshair,
+  Info,
   ListOrdered,
+  Loader2,
   Sparkles,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
@@ -28,7 +29,7 @@ export function LandingClient({ initialLocale, samples }: LandingClientProps) {
   const [urlInput, setUrlInput] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [noticeMsg, setNoticeMsg] = useState<string | null>(null);
+  const [hostedNotice, setHostedNotice] = useState<string | null>(null);
 
   const t = DICTIONARIES[locale];
 
@@ -44,7 +45,7 @@ export function LandingClient({ initialLocale, samples }: LandingClientProps) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
-    setNoticeMsg(null);
+    setHostedNotice(null);
 
     if (!urlInput.trim()) {
       setErrorMsg(t.hero.invalidUrlError);
@@ -59,9 +60,10 @@ export function LandingClient({ initialLocale, samples }: LandingClientProps) {
         body: JSON.stringify({ url: urlInput.trim(), locale }),
       });
       const data = (await res.json()) as {
+        status?: string;
         error?: string;
         normalizedUrl?: string;
-        liveCaptureEnabled?: boolean;
+        redirectUrl?: string;
       };
 
       if (!res.ok) {
@@ -69,14 +71,16 @@ export function LandingClient({ initialLocale, samples }: LandingClientProps) {
         return;
       }
 
-      if (data.liveCaptureEnabled && data.normalizedUrl) {
-        router.push(`/audit/ledgerlane?lang=${locale}`);
+      if (data.status === "completed" && data.redirectUrl) {
+        router.push(data.redirectUrl);
         return;
       }
 
-      setNoticeMsg(`${data.normalizedUrl ?? urlInput.trim()} — ${t.hero.pendingPipelineNotice}`);
+      setHostedNotice(
+        `${data.normalizedUrl ?? urlInput.trim()} — ${t.hero.pendingPipelineNotice}`
+      );
     } catch {
-      setErrorMsg(t.hero.invalidUrlError);
+      setErrorMsg("Network error while running audit. Please check the URL and try again.");
     } finally {
       setSubmitting(false);
     }
@@ -120,22 +124,47 @@ export function LandingClient({ initialLocale, samples }: LandingClientProps) {
               disabled={submitting}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
             >
-              <span>{t.hero.primaryCta}</span>
-              <ArrowRight className="h-4 w-4" />
+              {submitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>1280×800…</span>
+                </>
+              ) : (
+                <>
+                  <span>{t.hero.primaryCta}</span>
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
             </button>
           </form>
 
           {errorMsg && (
-            <div className="mx-auto flex max-w-2xl items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-left text-xs font-medium text-rose-800">
+            <div
+              role="alert"
+              className="mx-auto flex max-w-2xl items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-left text-xs font-medium text-rose-800"
+            >
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" />
               <span>{errorMsg}</span>
             </div>
           )}
 
-          {noticeMsg && (
-            <div className="mx-auto flex max-w-2xl items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-left text-xs leading-relaxed text-emerald-900">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-              <span>{noticeMsg}</span>
+          {hostedNotice && (
+            <div className="mx-auto max-w-2xl space-y-2.5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-left text-xs leading-relaxed text-amber-950">
+              <div className="flex items-start gap-2.5">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
+                <span>{hostedNotice}</span>
+              </div>
+              <div className="flex flex-wrap gap-2 pl-6">
+                {samples.map((s) => (
+                  <Link
+                    key={`hint-${s.id}`}
+                    href={`/audit/${s.id}?lang=${locale}`}
+                    className="rounded-lg border border-amber-300 bg-white px-2.5 py-1 font-semibold text-amber-950 hover:bg-amber-100"
+                  >
+                    {s.brandName} ({s.score}/100) →
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
         </section>

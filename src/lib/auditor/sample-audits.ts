@@ -11,8 +11,8 @@ import { AuditResultSchema } from "@/lib/auditor/schema";
 export type SampleAuditId = "ledgerlane" | "briefloom" | "tracedock";
 
 export interface SampleAudit {
-  id: SampleAuditId;
-  segment: "SaaS" | "AI tool" | "DevTool";
+  id: string;
+  segment: "SaaS" | "AI tool" | "DevTool" | "Live URL";
   brandName: string;
   tagline: string;
   auditedUrl: string;
@@ -23,6 +23,7 @@ export interface SampleAudit {
   issues: AuditIssue[];
   categoryScores: CategoryScore[];
   heroRewrite: HeroRewrite;
+  isLiveCapture?: boolean;
 }
 
 function buildSample(params: {
