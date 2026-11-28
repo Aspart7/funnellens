@@ -76,8 +76,14 @@ export function PinCanvas({
           const isActive = activeIssueId === issue.id;
           const penalty = RUBRIC_RULES[issue.id].penalty;
 
-          const pinX = Math.min(96, Math.max(3, anchor.xPct + Math.min(anchor.wPct, 4)));
-          const pinY = Math.min(94, Math.max(4, anchor.yPct));
+          const pinX =
+            issue.id === "hierarchy.rivals"
+              ? Math.min(96, anchor.xPct + anchor.wPct * 0.62)
+              : Math.min(96, Math.max(3, anchor.xPct + Math.min(anchor.wPct * 0.25, 6)));
+          const pinY =
+            issue.id === "hierarchy.rivals"
+              ? Math.min(94, anchor.yPct + 3)
+              : Math.min(94, Math.max(4, anchor.yPct));
 
           const pinStyle =
             issue.severity === "critical"
