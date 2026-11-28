@@ -31,6 +31,9 @@ yarn-error.log*
 .vercel
 .trigger
 
+# local live audit cache
+/.funnellens-cache
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

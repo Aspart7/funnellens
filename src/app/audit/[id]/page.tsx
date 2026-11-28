@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
 import { AuditReportClient } from "@/components/AuditReportClient";
 import { getSampleAuditById, SAMPLE_AUDITS } from "@/lib/auditor/sample-audits";
+import { getStoredAuditById } from "@/lib/auditor/store";
 import { resolveLocale } from "@/lib/i18n/dictionaries";
+
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return SAMPLE_AUDITS.map((sample) => ({ id: sample.id }));
@@ -16,7 +19,7 @@ export default async function AuditDetailPage({
 }) {
   const { id } = await params;
   const resolvedSearch = await searchParams;
-  const audit = getSampleAuditById(id);
+  const audit = getSampleAuditById(id) ?? getStoredAuditById(id);
 
   if (!audit) {
     notFound();
